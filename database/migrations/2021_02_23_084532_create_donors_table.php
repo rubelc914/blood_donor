@@ -15,11 +15,12 @@ class CreateDonorsTable extends Migration
     {
         Schema::create('donors', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('username')->unique();
             $table->string('name');
             $table->integer('age');
             $table->double('weight',8, 2);
             $table->string('blood_group');
-            $table->string('phone');
+            $table->string('phone')->unique();
             $table->string('gender');
             $table->string('address');
             $table->string('password');

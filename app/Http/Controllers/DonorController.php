@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\donors;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DonorController extends Controller
 {
@@ -15,12 +16,16 @@ class DonorController extends Controller
     public function createDonor(Request $request){
 
         $rules = [
+            'username'=> 'required|unique:donors,username',
             'name' => 'required',
             'age' => 'required',
             'weight'=>'required',
-            'blood_group'=>'blood_group',
-            'gender'=>'gender',
-            'phone'=>'phone',
+            'blood_group'=>'required',
+            'gender'=>'required',
+            'phone'=>'required|unique:donors,phone',
+            'address'=>'required',
+            'password'=>'required'
+
 
 
         ];
@@ -30,12 +35,13 @@ class DonorController extends Controller
         if($validator->fails()){
             return response()->json([
                 'status'=>false,
-                "error"=>$validator->error
+                "error"=>$validator->errors()
             ]);
         }
 
 
         $donor= new donors();
+        $donor->username= $request->username;
         $donor->name = $request->name;
         $donor->age =$request->age;
         $donor->weight =$request->weight;
