@@ -17,14 +17,12 @@ class CreateDonorsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('age');
-            $table->decimal('weight',$precision = 8, $scale = 2);
-            $table->string('blood-group');
+            $table->double('weight',8, 2);
+            $table->string('blood_group');
             $table->string('phone');
             $table->string('gender');
             $table->string('address');
             $table->string('password');
-
-
             $table->timestamps();
         });
     }
