@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\donors;
+use App\Donors;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -10,7 +10,12 @@ class DonorController extends Controller
 {
     public function index()
     {
-        return 'donor list';
+        $donor= Donors::select('name','age','weight','gender','blood_group','phone')->get()->toArray();
+
+        return response()->json([
+            "status"=>true,
+            "donors"=>$donor,
+        ]);
     }
 
     public function createDonor(Request $request){
@@ -40,7 +45,7 @@ class DonorController extends Controller
         }
 
 
-        $donor= new donors();
+        $donor= new Donors();
         $donor->username= $request->username;
         $donor->name = $request->name;
         $donor->age =$request->age;
@@ -57,4 +62,58 @@ class DonorController extends Controller
         ]);
 
     }
+
+ public function loginDonor(Request $request)
+ {
+
+    $rules = [
+        'username'=> 'required',
+        'password'=>'required',
+
+
+
+    ];
+
+    $validator = Validator::make($request->all(), $rules);
+
+    if($validator->fails()){
+        return response()->json([
+            'status'=>false,
+            "error"=>$validator->errors()
+        ]);
+    }
+
+    $donor = Donors::where('username', $request->username)->where('password',$request->password)->get()->first();
+
+    if ($donor) {
+        return response()->json([
+            "message"=>"successfuly login",
+        ]);
+        }else{
+            return response()->json([
+                "message"=>"login errors",
+            ]);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ }
+
+
+
 }
