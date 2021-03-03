@@ -18,7 +18,10 @@ use Illuminate\Http\Request;
 // });
 
 Route::prefix('donor')->group(function ($route) {
+    $route->get('/', function() {
+        return 'donor';
+    });
     $route->get('/list','DonorController@index');
-    $route->post('/registration','DonorController@createDonor');
+    $route->post('/register','DonorController@createDonor');
     $route->post('/login','DonorController@loginDonor');
 });
